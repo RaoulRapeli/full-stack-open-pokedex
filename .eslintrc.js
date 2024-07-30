@@ -1,6 +1,8 @@
 module.exports = {
   "env": {
     "browser": true,
+    "commonjs": true,
+    "node": true,
     "es6": true,
     "jest/globals": true
   },
@@ -8,6 +10,11 @@ module.exports = {
     "eslint:recommended",
     "plugin:react/recommended"
   ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -25,7 +32,7 @@ module.exports = {
       ],
     "linebreak-style": [
       "error",
-      "unix"
+      "windows"
     ],
     "quotes": [
       "error",
