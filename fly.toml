@@ -23,7 +23,8 @@ primary_region = 'arn'
   processes = ['app']
 
 [deploy]
-  strategy = "bluegreen"
+  strategy = "rolling"
+  max_unavailable = 1
 
 [[http_service.checks]]
   grace_period = "10s"
