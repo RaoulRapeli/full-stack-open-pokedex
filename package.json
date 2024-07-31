@@ -14,7 +14,9 @@
   },
   "jest": {
     "testEnvironment": "jsdom",
-    "testPathIgnorePatterns": ["e2e-tests"]
+    "testPathIgnorePatterns": [
+      "e2e-tests"
+    ]
   },
   "repository": {
     "type": "git",
@@ -35,6 +37,7 @@
     "@babel/preset-env": "^7.9.6",
     "@babel/preset-react": "^7.9.4",
     "@eslint/js": "^8.57.0",
+    "@flydotio/dockerfile": "^0.5.8",
     "@testing-library/jest-dom": "^5.8.0",
     "@testing-library/react": "^10.0.4",
     "babel-jest": "^25.5.1",

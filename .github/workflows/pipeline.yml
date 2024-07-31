@@ -8,6 +8,7 @@ on:
 jobs:
   simple_deployment_pipeline:
     runs-on: ubuntu-20.04
+    concurrency: deploy-group
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -27,3 +28,11 @@ jobs:
           command: npm run test:e2e
           start: npm run start-prod
           wait-on: http://localhost:5000
+      - name: Run flyctl deploy --remoter-only
+        uses: superfly/flyctl-actions/setup-flyctl@master
+        with:
+          command: flyctl deploy --remote-only
+          start: flyctl logs
+        env:
+            FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        
