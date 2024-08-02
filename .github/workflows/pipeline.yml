@@ -8,6 +8,9 @@ on:
     branches: [master]
     types: [opened, synchronize]
 
+env: 
+  SKIP: ${{ contains(toJson(github.event.commits.*.message), '#skip') }}
+
 jobs:
   simple_deployment_pipeline:
     runs-on: ubuntu-20.04
@@ -40,7 +43,7 @@ jobs:
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-20.04
-    if: ${{ github.event_name == 'push' }}
+    if: ${{ github.event_name == 'push' && github.env.SKIP == 'false' }}
     permissions:
       contents: write
     steps:
@@ -50,8 +53,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '16'
-      - name: display value
-        run: echo '${{ github.env.SKIP }}'
       - name: Bump version and push tag
         uses: anothrNick/github-tag-action@777684df761b882a3f4f70db16ac70d8cc78d0ea
         env:
@@ -65,7 +66,7 @@ jobs:
         with:
           severity: info
           text: A new version of Pokedex deployed
-          description: "to ${{ secrets.DEPLOYMENT_URL}} by ${{ github.event.pusher }}"
+          description: "to ${{ secrets.DEPLOYMENT_URL}} by ${{ github.event.pusher.username }}"
           details: ""
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
       - name: Discord Webhook Notify failure
@@ -75,7 +76,7 @@ jobs:
           severity: error
           text: Build failed
           description: "commit"
-          details: "${{ github.event.head_commit.url }} by ${{ github.event.pusher }} broke the build :("
+          details: "${{ github.event.head_commit.url }} by ${{ github.event.pusher.username }} broke the build :("
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
         
