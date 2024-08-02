@@ -8,9 +8,6 @@ on:
     branches: [master]
     types: [opened, synchronize]
 
-env:
-  SKIP: ${{contains(join(github.event.commits.*.message, ' '), '#skip')}}
-
 jobs:
   simple_deployment_pipeline:
     runs-on: ubuntu-20.04
@@ -43,7 +40,7 @@ jobs:
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-20.04
-    if: ${{ github.event_name == 'push' }}
+    if: ${{ github.event_name == 'push' && !${{contains(join(github.event.commits.*.message, ' '), '#skip')}} }}
     permissions:
       contents: write
     steps:
@@ -68,7 +65,7 @@ jobs:
         with:
           severity: info
           text: A new version of Pokedex deployed
-          description: "to ${{ secrets.DEPLOYMENT_URL}} by RaoulRapeli"
+          description: "to ${{ secrets.DEPLOYMENT_URL}} by ${{ github.actor }}"
           details: ""
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
       - name: Discord Webhook Notify failure
@@ -77,6 +74,8 @@ jobs:
         with:
           severity: error
           text: Build failed
+          description: "commit"
+          details: "${{ github.event_path }} by ${{ github.actor }} broke the build :("
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
         
