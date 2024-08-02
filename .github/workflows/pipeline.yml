@@ -65,7 +65,7 @@ jobs:
         with:
           severity: info
           text: A new version of Pokedex deployed
-          description: "to ${{ secrets.DEPLOYMENT_URL}} by ${{ github.actor }}"
+          description: "to ${{ secrets.DEPLOYMENT_URL}} by ${{ github.event.pusher }}"
           details: ""
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
       - name: Discord Webhook Notify failure
@@ -75,7 +75,7 @@ jobs:
           severity: error
           text: Build failed
           description: "commit"
-          details: "${{ github.event_path }} by ${{ github.actor }} broke the build :("
+          details: "${{ github.event.head_commit.url }} by ${{ github.event.pusher }} broke the build :("
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
         
