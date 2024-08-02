@@ -7,10 +7,7 @@ on:
   pull_request:
     branches: [master]
     types: [opened, synchronize]
-
-env: 
-  SKIP: ${{ contains(toJson(github.event.commits.*.message), '#skip') }}
-
+    
 jobs:
   simple_deployment_pipeline:
     runs-on: ubuntu-20.04
@@ -52,7 +49,7 @@ jobs:
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-20.04
-    if: ${{ github.event_name == 'push' && github.env.SKIP == 'false' }}
+    if: ${{ github.event_name == 'push' && contains(toJson(github.event.commits.*.message)), '#skip') == 'false' }}
     permissions:
       contents: write
     steps:
