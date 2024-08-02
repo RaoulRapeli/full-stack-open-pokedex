@@ -52,7 +52,7 @@ jobs:
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-20.04
-    if: ${{ github.event_name == 'push' && github.env.CONDITION == false }}
+    if: ${{ github.event_name == 'push' }}
     permissions:
       contents: write
     steps:
@@ -62,6 +62,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '16'
+      - name: what is condition
+        run: echo ${{ env.CONDITION }}
       - name: Bump version and push tag
         uses: anothrNick/github-tag-action@777684df761b882a3f4f70db16ac70d8cc78d0ea
         env:
