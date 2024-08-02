@@ -62,8 +62,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '16'
-      - name: what is condition
-        run: echo ${{ env.CONDITION }}
       - name: Bump version and push tag
         uses: anothrNick/github-tag-action@777684df761b882a3f4f70db16ac70d8cc78d0ea
         env:
