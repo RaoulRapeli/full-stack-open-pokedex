@@ -17,3 +17,5 @@ jobs:
           date
       - name: Directory content
         run: ls -l 
+      - name: getData
+        run: echo '${{ github }}'

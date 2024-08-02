@@ -67,7 +67,9 @@ jobs:
         if: ${{ success() }}
         with:
           severity: info
-          text: A new version of Pokedex deployed!
+          text: A new version of Pokedex deployed
+          description: "to ${{ secrets.DEPLOYMENT_URL}} by RaoulRapeli"
+          details: ""
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
       - name: Discord Webhook Notify failure
         uses: rjstone/discord-webhook-notify@v1.0.4
