@@ -52,7 +52,7 @@ jobs:
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-20.04
-    if: ${{ github.event_name == 'push' }} && ${{ !env.CONDITION }}
+    if: ${{ github.event_name == 'push' }} && ${{ github.env.CONDITION == 'false'}}
     permissions:
       contents: write
     steps:
