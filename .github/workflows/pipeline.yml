@@ -54,7 +54,7 @@ jobs:
         with:
           node-version: '16'
       - name: display value
-        run: echo 'github.env.SKIP'
+        run: echo '${{ github.env.SKIP }}'
       - name: Bump version and push tag
         uses: anothrNick/github-tag-action@777684df761b882a3f4f70db16ac70d8cc78d0ea
         env:
