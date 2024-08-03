@@ -19,9 +19,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: displayJOIN
-        run: echo ${{ env.JOIN }}
+        run: echo '${{ env.JOIN }}''
       - name: displayCondition
-        run: echo ${{ env.CONDITION }}
+        run: echo '${{ env.CONDITION }}''
   simple_deployment_pipeline:
     runs-on: ubuntu-20.04
     concurrency: deploy-group
