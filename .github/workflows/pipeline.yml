@@ -8,24 +8,13 @@ on:
     branches: [master]
     types: [opened, synchronize]
 
-env:
-  CONDITION: ${{ contains(join(github.event.commits.*.message, ' '), '#skip') }}
-  JOIN: ${{ join(github.event.commits.*.message, ' ') }}
-
 jobs:
-  showData:
-    runs-on: ubuntu-20.04
-    concurrency: deploy-group
-    steps:
-      - uses: actions/checkout@v4
-      - name: displayJOIN
-        run: echo '${{ env.JOIN }}'
-      - name: displayCondition
-        run: echo '${{ env.CONDITION }}'
   simple_deployment_pipeline:
     runs-on: ubuntu-20.04
     concurrency: deploy-group
-    if: ${{ github.event_name == 'push' && 'github.env.CONDITION' == 'false'}}
+    env:
+      CONDITION: ${{ contains(join(github.event.commits.*.message, ' '), '#skip') }}
+    if: ${{ github.event_name == 'push' && env.CONDITION == 'false'}}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
