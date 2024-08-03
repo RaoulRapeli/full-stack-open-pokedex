@@ -10,12 +10,22 @@ on:
 
 env:
   CONDITION: ${{ contains(join(github.event.commits.*.message, ' '), '#skip') }}
+  JOIN: ${{ join(github.event.commits.*.message, ' ') }}
 
 jobs:
+  showData:
+    runs-on: ubuntu-20.04
+    concurrency: deploy-group
+    steps:
+      - uses: actions/checkout@v4
+      - name: displayJOIN
+        run: echo ${{ env.JOIN }}
+      - name: displayCondition
+        run: echo ${{ env.CONDITION }}
   simple_deployment_pipeline:
     runs-on: ubuntu-20.04
     concurrency: deploy-group
-    if: ${{ github.event_name == 'push' }}
+    if: ${{ github.event_name == 'push' && gitbuh.env.CONDITION == 'false'}}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -52,7 +62,6 @@ jobs:
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-20.04
-    if: ${{ github.event_name == 'push' && $CONDITION == 'false'}}
     permissions:
       contents: write
     steps:
